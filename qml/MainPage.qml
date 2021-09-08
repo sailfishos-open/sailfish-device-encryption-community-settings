@@ -21,7 +21,7 @@ Page {
                 anchors.right: parent.right
                 anchors.rightMargin: Theme.horizontalPageMargin
                 color: Theme.highlightColor
-                text: qsTr("This device supports encrytion of your personal data. Here you can change encryption passwords and reset the settings.")
+                text: qsTr("This device supports encrytion of your personal data. Here you can change encryption passwords and change the settings.")
                 wrapMode: Text.WordWrap
             }
 
@@ -31,8 +31,8 @@ Page {
                     contentHeight: itemsCol.height + Theme.paddingLarge
                     enabled: initialized
 
-                    property string name
                     property var    encrypted: undefined
+                    property string name
                     property bool   initialized: name && encrypted !== undefined
 
                     Column {
