@@ -2,10 +2,14 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
+    id: devPage
+
     property string deviceId
     property bool   encrypted
     property string name
     property string recoveryPassword
+    property int    freePasswordSlots
+    property int    usedPasswordSlots
 
     SilicaFlickable {
         anchors.fill: parent
@@ -87,6 +91,40 @@ Page {
                     }
                 }
             }
+
+            Column {
+                spacing: Theme.paddingLarge
+                visible: encrypted
+                width: parent.width
+
+                SectionHeader {
+                    text: qsTr("Passwords")
+                }
+
+                Label {
+                    anchors.left: parent.left
+                    anchors.leftMargin: Theme.horizontalPageMargin
+                    anchors.right: parent.right
+                    anchors.rightMargin: Theme.horizontalPageMargin
+                    color: Theme.secondaryHighlightColor
+                    text: qsTr("Defined: %1\nFree slots: %2").arg(usedPasswordSlots).arg(freePasswordSlots)
+                    wrapMode: Text.WordWrap
+                }
+
+                ListItem {
+                    contentHeight: Theme.itemSizeMedium
+                    visible: freePasswordSlots > 0
+
+                    Label {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: qsTr("Add password")
+                        truncationMode: TruncationMode.Fade
+                        width: parent.width - 2*Theme.horizontalPageMargin
+                        x: Theme.horizontalPageMargin
+                    }
+                }
+
+            }
         }
 
         VerticalScrollDecorator { flickable: parent }
@@ -94,7 +132,25 @@ Page {
 
     Component.onCompleted: {
         if (!encrypted) return;
+        refreshPasswordSlots();
         refreshRecoveryPassword();
+    }
+
+    function refreshPasswordSlots() {
+        app.dbus.call("FreePasswordSlots", deviceId,
+                      function(result) {
+                          freePasswordSlots = result;
+                      },
+                      function(error) {
+                          app.error(qsTr('Update failed'),  qsTr('Error while asking for number of free password slots.'));
+                      });
+        app.dbus.call("UsedPasswordSlots", deviceId,
+                      function(result) {
+                          usedPasswordSlots = result;
+                      },
+                      function(error) {
+                          app.error(qsTr('Update failed'),  qsTr('Error while asking for number of used password slots.'));
+                      });
     }
 
     function refreshRecoveryPassword() {
