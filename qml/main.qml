@@ -26,7 +26,10 @@ ApplicationWindow
             dbusI.call("Devices", undefined,
                        function(result) {
                            devices = result;
-            })
+                       },
+                       function(error) {
+                           app.error(qsTr('Update failed'),  qsTr('Failed to establish connection with Device Encryption Service.'));
+                       })
         }
     }
 
@@ -35,6 +38,8 @@ ApplicationWindow
     }
 
     function error(mainText, description) {
+        pageStack.completeAnimation();
+        console.log("Error: " + mainText + " / " + description);
         pageStack.push(Qt.resolvedUrl("ErrorPage.qml"),
                        {
                            "mainText": mainText,
