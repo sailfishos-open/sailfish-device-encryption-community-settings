@@ -24,6 +24,12 @@ file(GLOB QML_SRC qml/*.qml)
 file(GLOB CXX_SRC src/*.cpp)
 file(GLOB CXX_HEADERS src/*.h)
 
+add_custom_target(Sources SOURCES
+    ${QML_SRC}
+    ${CXX_SRC} ${CXX_HEADERS}
+    rpm/settings.spec
+    )
+
 ## Translations
 set(TRANSLATION_TS_FILES
         translations/en.ts
@@ -34,28 +40,13 @@ set(TRANSLATION_SOURCE_FILES
         ${QML_SRC}
         )
 
-# See http://doc.qt.io/qt-5/cmake-manual.html
-#
-# qt5_create_translation macro process translations in two steps:
-#
-#  - collect available phrases inside TRANSLATION_SOURCE_FILES
-#    with lupdate tool and put them into *.ts files if some is missing there.
-#
-#  - create binary translation files (*.qm) from translated phrases available
-#    in *.ts files with lrelease tool
 qt5_create_translation(TRANSLATION_QM_FILES
         ${TRANSLATION_SOURCE_FILES}
         ${TRANSLATION_TS_FILES})
 
 add_custom_target(translations ALL DEPENDS ${TRANSLATION_QM_FILES})
 
-add_custom_target(Sources SOURCES
-    ${QML_SRC}
-    ${CXX_SRC} ${CXX_HEADERS}
-    rpm/settings.spec
-    )
-
-# compilation
+## Compilation
 add_compile_options(
 )
 
