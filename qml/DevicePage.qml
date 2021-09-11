@@ -5,6 +5,7 @@ Page {
     id: devPage
 
     // set by page initialization
+    property var    app
     property string deviceId
     property bool   encrypted
     property string name
@@ -141,6 +142,7 @@ Page {
                     onClicked: {
                         var dialog = pageStack.push(Qt.resolvedUrl("PasswordDialog.qml"),
                                                     {
+                                                        "app": app,
                                                         "acceptText": qsTr("Add"),
                                                         "actionTitle": qsTr("New password"),
                                                         "title": qsTr("Add password"),
@@ -184,6 +186,7 @@ Page {
                     onClicked: {
                         var dialog = pageStack.push(Qt.resolvedUrl("PasswordDialog.qml"),
                                                     {
+                                                        "app": app,
                                                         "acceptText": qsTr("Test"),
                                                         "controlTitle": qsTr("Tested password"),
                                                         "title": qsTr("Test password"),
@@ -230,6 +233,7 @@ Page {
                     onClicked: {
                         var dialog = pageStack.push(Qt.resolvedUrl("PasswordDialog.qml"),
                                                     {
+                                                        "app": app,
                                                         "acceptText": qsTr("Remove"),
                                                         "actionTitle": qsTr("Removed password"),
                                                         "controlTitle": qsTr("Remaining password"),

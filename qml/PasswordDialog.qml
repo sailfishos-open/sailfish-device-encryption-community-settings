@@ -11,6 +11,7 @@ Dialog {
                 passwordAction !== passwordControl;
     }
 
+    property var    app
     property alias  acceptText: header.acceptText
     property string actionTitle
     property string controlTitle: qsTr("Current password")

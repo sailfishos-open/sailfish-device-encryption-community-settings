@@ -1,0 +1,16 @@
+{
+    "translation_catalog": "sailfish-device-encryption-community-settings",
+    "required_group": "sailfish-system",
+    "entries": [
+    {
+        "path": "system_settings/security/community-encryption",
+        "title": "Encryption (Community)",
+        "type": "page",
+        "icon": "image://theme/icon-m-screenlock",
+        "order": 315,
+        "params": {
+            "source": "/usr/share/jolla-settings/pages/community-encryption/MainPage.qml"
+         }
+    }
+    ]
+}
