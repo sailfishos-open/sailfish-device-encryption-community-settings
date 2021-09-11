@@ -52,8 +52,9 @@ ApplicationWindow
     function error(mainText, description) {
         pageStack.completeAnimation();
         console.log("Error: " + mainText + " / " + description);
-        pageStack.push(Qt.resolvedUrl("ErrorPage.qml"),
+        pageStack.push(Qt.resolvedUrl("MessagePage.qml"),
                        {
+                           "title": qsTr("Error"),
                            "mainText": mainText,
                            "description": description
                        });

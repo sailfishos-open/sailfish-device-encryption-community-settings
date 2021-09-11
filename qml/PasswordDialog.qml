@@ -4,9 +4,12 @@ import Sailfish.Silica 1.0
 Dialog {
     id: dialog
 
-    canNavigateForward: passwordAction.length > 1 && passwordControl.length > 1 &&
-                        (!repeatActionPassword || action.text === actionRepeated.text) &&
-                        passwordAction !== passwordControl
+    canNavigateForward: {
+        if (singlePassword) return passwordControl.length;
+        return passwordAction.length > 1 && passwordControl.length > 1 &&
+                (!repeatActionPassword || action.text === actionRepeated.text) &&
+                passwordAction !== passwordControl;
+    }
 
     property alias  acceptText: header.acceptText
     property string actionTitle
@@ -17,6 +20,7 @@ Dialog {
     property alias  passwordControl: control.text
     property string passwordControlType: controlType.currentItem ? controlType.currentItem.text : ""
     property bool   repeatActionPassword: true
+    property bool   singlePassword: false
     property string title
 
     SilicaFlickable {
@@ -66,12 +70,19 @@ Dialog {
                 id: control
                 label: controlTitle
                 text: ""
-                EnterKey.onClicked: action.focus = true
+                EnterKey.onClicked: {
+                    if (singlePassword) {
+                        if (canNavigateForward) dialog.accept();
+                        return;
+                    }
+                    action.focus = true;
+                }
             }
 
             // action password
             SectionHeader {
                 text: actionTitle
+                visible: !singlePassword
             }
 
 
@@ -84,6 +95,7 @@ Dialog {
                         model: app.passwordTypes
                     }
                 }
+                visible: !singlePassword
             }
 
             PasswordField {
@@ -94,7 +106,11 @@ Dialog {
                            qsTr("Cannot have the same %1 and %2").arg(controlTitle).arg(actionTitle) :
                            actionTitle
                 text: ""
-                EnterKey.onClicked: actionRepeated.focus = true
+                visible: !singlePassword
+                EnterKey.onClicked: {
+                    if (repeatActionPassword) actionRepeated.focus = true;
+                    else if (canNavigateForward) dialog.accept();
+                }
             }
 
             PasswordField {
@@ -107,6 +123,7 @@ Dialog {
                     return qsTr("Passwords match");
                 }
                 text: ""
+                visible: !singlePassword && repeatActionPassword
                 EnterKey.onClicked: if (canNavigateForward) dialog.accept();
             }
         }

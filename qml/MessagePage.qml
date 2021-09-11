@@ -2,6 +2,9 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
+    id: page
+
+    property string title
     property string mainText
     property string description
 
@@ -15,7 +18,7 @@ Page {
             width: parent.width
 
             PageHeader {
-                title: qsTr("Error")
+                title: page.title
             }
 
             Label {
