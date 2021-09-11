@@ -9,6 +9,7 @@ URL:        https://github.com/sailfishos-open/sailfish-device-encryption-commun
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 Requires:   sailfish-device-encryption-community-service
+Requires:   qml(Nemo.DBus)
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
