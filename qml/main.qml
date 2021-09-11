@@ -12,6 +12,7 @@ ApplicationWindow
 
     property var dbus
     property var devices
+    property var passwordTypes
 
     DBusInterface {
         id: dbusI
@@ -31,10 +32,21 @@ ApplicationWindow
                            app.error(qsTr('Update failed'),  qsTr('Failed to establish connection with Device Encryption Service.'));
                        })
         }
+
+        function getPasswordTypes() {
+            app.dbus.call("PasswordTypes", undefined,
+                          function(result) {
+                              passwordTypes = result;
+                          },
+                          function(error) {
+                              app.error(qsTr('Update failed'),  qsTr('Error while asking for supported password types.'));
+                          });
+        }
     }
 
     Component.onCompleted: {
         dbus.getDevices();
+        dbus.getPasswordTypes();
     }
 
     function error(mainText, description) {
