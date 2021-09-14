@@ -8,7 +8,7 @@ Dialog {
         if (singlePassword) return passwordControl.length;
         return passwordAction.length > 1 && passwordControl.length > 1 &&
                 (!repeatActionPassword || action.text === actionRepeated.text) &&
-                passwordAction !== passwordControl;
+                (passwordActionType !== passwordControlType || passwordAction !== passwordControl);
     }
 
     property var    app
